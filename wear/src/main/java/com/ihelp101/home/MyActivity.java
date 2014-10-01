@@ -71,7 +71,7 @@ public class MyActivity extends Activity implements
 
             sendMessage(spokenText, null);
 
-            System.exit(0);
+            finish();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
