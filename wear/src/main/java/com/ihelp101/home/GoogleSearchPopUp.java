@@ -3,10 +3,7 @@ package com.ihelp101.home;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -24,32 +21,37 @@ import com.google.android.gms.wearable.Wearable;
 
 import java.util.List;
 
-public class MyActivity extends Activity implements
+public class GoogleSearchPopUp extends Activity implements
         MessageApi.MessageListener,
         GoogleApiClient.ConnectionCallbacks {
 
     private GoogleApiClient client;
     private static final int SPEECH_REQUEST_CODE = 0;
 
-    public static Context c;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        c = this;
-
-        // Service
-        startService(new Intent(this, MyService.class));
-
         setContentView(R.layout.activity_my);
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
-
+                displaySpeechRecognizer();
             }
         });
+
+        client = new GoogleApiClient.Builder(GoogleSearchPopUp.this)
+                .addConnectionCallbacks(GoogleSearchPopUp.this)
+                .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(ConnectionResult result) {
+                        Log.i(MyActivity.class.getSimpleName(), "Connection failed");
+                    }
+                })
+                .addApi(Wearable.API)
+                .build();
+
+        client.connect();
     }
 
     public void displaySpeechRecognizer() {
@@ -116,6 +118,7 @@ public class MyActivity extends Activity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Wearable.MessageApi.removeListener(client, this);
+        client.disconnect();
     }
-
 }
