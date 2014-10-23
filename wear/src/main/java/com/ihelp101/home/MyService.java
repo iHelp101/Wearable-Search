@@ -10,8 +10,10 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.os.Vibrator;
 import android.speech.RecognizerIntent;
+import android.support.v4.app.NotificationCompat;
 
 
 public class MyService extends Service implements SensorEventListener{
@@ -20,6 +22,7 @@ public class MyService extends Service implements SensorEventListener{
     public SensorManager mSensorManager;
     public Sensor mGyroSensor;
     public static Context context;
+    private PowerManager.WakeLock wl;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -62,8 +65,12 @@ public class MyService extends Service implements SensorEventListener{
 
         float angularXSpeed = event.values[0];
 
-        if (angularXSpeed <= -14) {
+        if (angularXSpeed >= 15) {
             System.out.println("Google Display!");
+
+            Vibrator v = (Vibrator) MyActivity.c.getSystemService(MyActivity.c.VIBRATOR_SERVICE);
+            // Vibrate for 500 milliseconds
+            v.vibrate(500);
 
             Intent i = new Intent(MyActivity.c, GoogleSearchPopUp.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

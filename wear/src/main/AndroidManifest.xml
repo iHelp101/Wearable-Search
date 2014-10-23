@@ -5,6 +5,7 @@
     <uses-feature android:name="android.hardware.type.watch" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <permission
         android:name="com.mohammadag.googlesearchapi.permission.ACCESS_GGOGLE_SEARCH_API"

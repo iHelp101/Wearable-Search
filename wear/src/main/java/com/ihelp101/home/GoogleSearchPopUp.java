@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.speech.RecognizerIntent;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
@@ -31,6 +32,12 @@ public class GoogleSearchPopUp extends Activity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+
+        wakeLock.acquire();
+
         setContentView(R.layout.activity_my);
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
@@ -52,6 +59,8 @@ public class GoogleSearchPopUp extends Activity implements
                 .build();
 
         client.connect();
+
+        wakeLock.release();
     }
 
     public void displaySpeechRecognizer() {
@@ -75,7 +84,10 @@ public class GoogleSearchPopUp extends Activity implements
             sendMessage(spokenText, null);
 
             finish();
+        } else {
+            finish();
         }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 

@@ -24,9 +24,7 @@ import com.google.android.gms.wearable.Wearable;
 
 import java.util.List;
 
-public class MyActivity extends Activity implements
-        MessageApi.MessageListener,
-        GoogleApiClient.ConnectionCallbacks {
+public class MyActivity extends Activity {
 
     private GoogleApiClient client;
     private static final int SPEECH_REQUEST_CODE = 0;
@@ -51,71 +49,4 @@ public class MyActivity extends Activity implements
             }
         });
     }
-
-    public void displaySpeechRecognizer() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-
-        startActivityForResult(intent, SPEECH_REQUEST_CODE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent data) {
-        if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
-            List<String> results = data.getStringArrayListExtra(
-                    RecognizerIntent.EXTRA_RESULTS);
-            String spokenText = results.get(0);
-
-            System.out.println(spokenText);
-
-            sendMessage(spokenText, null);
-
-            finish();
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void sendMessage(final String message, final byte[] payload) {
-        Log.i(MyActivity.class.getSimpleName(), "WEAR Sending message " + message);
-        Wearable.NodeApi.getConnectedNodes(client).setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
-            @Override
-            public void onResult(NodeApi.GetConnectedNodesResult getConnectedNodesResult) {
-                List<Node> nodes = getConnectedNodesResult.getNodes();
-                for (Node node : nodes) {
-                    Log.i(MyActivity.class.getSimpleName(), "WEAR sending " + message + " to " + node);
-                    Wearable.MessageApi.sendMessage(client, node.getId(), message, payload).setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
-                        @Override
-                        public void onResult(MessageApi.SendMessageResult sendMessageResult) {
-                            Log.i(MyActivity.class.getSimpleName(), "WEAR Result " + sendMessageResult.getStatus());
-                        }
-                    });
-                }
-
-            }
-        });
-    }
-
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        Wearable.MessageApi.addListener(client, this);
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Log.i(MyActivity.class.getSimpleName(), "Connection failed");
-    }
-
-    @Override
-    public void onMessageReceived(MessageEvent messageEvent) {
-        Log.i(MyActivity.class.getSimpleName(), ""+messageEvent.getPath());
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
 }

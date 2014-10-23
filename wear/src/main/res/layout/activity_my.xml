@@ -10,5 +10,5 @@
     app:roundLayout="@layout/round_activity_my"
     tools:context=".MyActivity"
     tools:deviceIds="wear"
-    android:background="#80000000">
+    android:background="@android:color/transparent">
 </android.support.wearable.view.WatchViewStub>
