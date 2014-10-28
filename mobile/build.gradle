@@ -8,8 +8,8 @@ android {
         applicationId "com.ihelp101.home"
         minSdkVersion 11
         targetSdkVersion 20
-        versionCode 1
-        versionName "1.0"
+        versionCode 12
+        versionName "1.2f"
     }
     buildTypes {
         release {

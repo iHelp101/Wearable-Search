@@ -9,20 +9,19 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 
 public class MyService extends Service implements SensorEventListener{
 
-    private static final int SPEECH_REQUEST_CODE = 0;
     public SensorManager mSensorManager;
     public Sensor mGyroSensor;
-    public static Context context;
-    private PowerManager.WakeLock wl;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -33,7 +32,7 @@ public class MyService extends Service implements SensorEventListener{
         System.out.println("Service Created!");
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mGyroSensor=mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        mGyroSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
         PackageManager PM= this.getPackageManager();
         boolean gyro = PM.hasSystemFeature(PackageManager.FEATURE_SENSOR_GYROSCOPE);
@@ -45,14 +44,25 @@ public class MyService extends Service implements SensorEventListener{
         }
     }
 
-    @Override
-    public void onDestroy() {
+    public void Yolo () {
+        PowerManager pm = (PowerManager)
+                getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = pm.isInteractive();
 
+        Log.v("Home", "Screen: " +isScreenOn);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                Yolo();
+            }
+        }, 20000);
     }
 
-    @Override
-    public void onStart(Intent intent, int startid) {
-
+    public void onDestroy(){
+        System.out.println("Service Killed");
+        super.onDestroy();
+        mSensorManager.unregisterListener(this);
     }
 
     @Override
@@ -66,17 +76,28 @@ public class MyService extends Service implements SensorEventListener{
         float angularXSpeed = event.values[0];
 
         if (angularXSpeed >= 15) {
-            System.out.println("Google Display!");
+            PowerManager pm = (PowerManager)
+                    getSystemService(Context.POWER_SERVICE);
+            boolean isScreenOn = pm.isInteractive();
 
-            Vibrator v = (Vibrator) MyActivity.c.getSystemService(MyActivity.c.VIBRATOR_SERVICE);
-            // Vibrate for 500 milliseconds
-            v.vibrate(500);
+            if (isScreenOn == true) {
+                System.out.println("Google Display!");
+                System.out.println(angularXSpeed);
 
-            Intent i = new Intent(MyActivity.c, GoogleSearchPopUp.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            MyActivity.c.startActivity(i);
-        }
-    }
+                Vibrator v = (Vibrator) MyActivity.c.getSystemService(MyActivity.c.VIBRATOR_SERVICE);
+                v.vibrate(250);
+
+                Intent i = new Intent(MyActivity.c, GoogleSearchPopUp.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                MyActivity.c.startActivity(i);
+            }
+         } else {
+                if (angularXSpeed > 5) {
+                    System.out.println(angularXSpeed);
+                }
+            }
+         }
+
 
     protected void onResume() {
         // Register a listener for the sensor.

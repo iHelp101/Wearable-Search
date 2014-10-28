@@ -2,11 +2,11 @@
 <pre-dex-items>
 
     <item
-        dex="C:\Users\iHelp101\workspace\Home\wear\build\intermediates\pre-dexed\debug\classes-c6ce6813c9a26789278ab833fd4b7e737389bca2.jar"
-        jar="C:\Users\iHelp101\workspace\Home\wear\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\5.0.77\classes.jar"
+        dex="C:\Users\iHelp101\workspace\Home\mobile\build\intermediates\pre-dexed\debug\classes-9cca473ba37781fe8263a92bf40462395c35f49a.jar"
+        jar="C:\Users\iHelp101\workspace\Home\mobile\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\classes.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="80a6f6f2d0dfcfae8c424cf81dcdf7157e7bf4b8"/>
+        sha1="8694693636ab36910c8100ce527c258ff3ebece0"/>
     <item
         dex="C:\Users\iHelp101\workspace\Home\wear\build\intermediates\pre-dexed\debug\classes-db46d67dbdda16f08bcabd1f2808ac56583e915a.jar"
         jar="C:\Users\iHelp101\workspace\Home\wear\build\intermediates\exploded-aar\com.android.support\support-v13\20.0.0\classes.jar"
@@ -32,16 +32,40 @@
         revision="20.0.0"
         sha1="27bbd3982cdfe4468a9bf99c8c773734a9049e33"/>
     <item
+        dex="C:\Users\iHelp101\workspace\Home\mobile\build\intermediates\pre-dexed\debug\internal_impl-20.0.0-bc5c593c57937a6829f03bdc31474cf9962d2f28.jar"
+        jar="C:\Users\iHelp101\workspace\Home\mobile\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\libs\internal_impl-20.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
+    <item
+        dex="C:\Users\iHelp101\workspace\Home\mobile\build\intermediates\pre-dexed\debug\classes-dcbdd72d087be882295afe472e513a84ae187920.jar"
+        jar="C:\Users\iHelp101\workspace\Home\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\6.1.11\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="711351f12980fffdff7f1b0be9303ac6611affd8"/>
+    <item
         dex="C:\Users\iHelp101\workspace\Home\wear\build\intermediates\pre-dexed\debug\support-annotations-20.0.0-5e877a6926a7ae54a01924218eed03d77f5602c6.jar"
         jar="C:\Users\iHelp101\AppData\Local\Android\android-studio\sdk\extras\android\m2repository\com\android\support\support-annotations\20.0.0\support-annotations-20.0.0.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
     <item
+        dex="C:\Users\iHelp101\workspace\Home\wear\build\intermediates\pre-dexed\debug\classes-d2e6a050d2c9144b907736c09e46c7df00501779.jar"
+        jar="C:\Users\iHelp101\workspace\Home\wear\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\6.1.11\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="711351f12980fffdff7f1b0be9303ac6611affd8"/>
+    <item
         dex="C:\Users\iHelp101\workspace\Home\wear\build\intermediates\pre-dexed\debug\internal_impl-20.0.0-4c291a2323a64af05eb681e0df6ab0b23833dafa.jar"
         jar="C:\Users\iHelp101\workspace\Home\wear\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\libs\internal_impl-20.0.0.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
+    <item
+        dex="C:\Users\iHelp101\workspace\Home\mobile\build\intermediates\pre-dexed\debug\classes-29ed3e6e7797e761ec6c3680af5e1c71692c0159.jar"
+        jar="C:\Users\iHelp101\workspace\Home\mobile\build\intermediates\exploded-aar\com.android.support\appcompat-v7\20.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef"/>
 
 </pre-dex-items>

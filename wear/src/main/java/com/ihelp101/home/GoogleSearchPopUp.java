@@ -3,8 +3,6 @@ package com.ihelp101.home;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.speech.RecognizerIntent;
@@ -33,19 +31,7 @@ public class GoogleSearchPopUp extends Activity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
-
-        wakeLock.acquire();
-
-        setContentView(R.layout.activity_my);
-        final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
-        stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
-            @Override
-            public void onLayoutInflated(WatchViewStub stub) {
-                displaySpeechRecognizer();
-            }
-        });
+        displaySpeechRecognizer();
 
         client = new GoogleApiClient.Builder(GoogleSearchPopUp.this)
                 .addConnectionCallbacks(GoogleSearchPopUp.this)
@@ -59,15 +45,12 @@ public class GoogleSearchPopUp extends Activity implements
                 .build();
 
         client.connect();
-
-        wakeLock.release();
     }
 
     public void displaySpeechRecognizer() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-
         startActivityForResult(intent, SPEECH_REQUEST_CODE);
     }
 
@@ -83,11 +66,13 @@ public class GoogleSearchPopUp extends Activity implements
 
             sendMessage(spokenText, null);
 
+
             finish();
         } else {
             finish();
         }
 
+        finish();
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -102,7 +87,8 @@ public class GoogleSearchPopUp extends Activity implements
                     Wearable.MessageApi.sendMessage(client, node.getId(), message, payload).setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
                         @Override
                         public void onResult(MessageApi.SendMessageResult sendMessageResult) {
-                            Log.i(MyActivity.class.getSimpleName(), "WEAR Result " + sendMessageResult.getStatus());
+                    Log.i(MyActivity.class.getSimpleName(), "WEAR Result " + sendMessageResult.getStatus());
+                    finish();
                         }
                     });
                 }
@@ -130,7 +116,11 @@ public class GoogleSearchPopUp extends Activity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        System.out.println("Destroyed");
+
         Wearable.MessageApi.removeListener(client, this);
         client.disconnect();
+        finish();
     }
 }
