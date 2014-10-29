@@ -8,29 +8,34 @@ import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class MyActivity extends Activity {
 
     public static Context c;
+    private static Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        button = (Button) findViewById(R.id.button);
         c = this;
 
         WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
-                // Now you can access your views
-                final Button button = (Button) findViewById(R.id.button);
+
+                button = (Button) findViewById(R.id.button);
 
                 boolean Check = isMyServiceRunning(MyService.class);
 
                 if (Check == false) {
-                    startService(new Intent(MyActivity.this, MyService.class));
+                    button.setText("Turn On");
+                } else {
+                    button.setText("Turn Off");
                 }
 
                 button.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +65,5 @@ public class MyActivity extends Activity {
         }
         return false;
     }
-
 }
 

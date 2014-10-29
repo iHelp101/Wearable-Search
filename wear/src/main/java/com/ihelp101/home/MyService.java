@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
@@ -36,7 +39,6 @@ public class MyService extends Service implements SensorEventListener{
 
         PackageManager PM= this.getPackageManager();
         boolean gyro = PM.hasSystemFeature(PackageManager.FEATURE_SENSOR_GYROSCOPE);
-
 
         if (gyro) {
             System.out.println("One step closer");
@@ -80,7 +82,9 @@ public class MyService extends Service implements SensorEventListener{
                     getSystemService(Context.POWER_SERVICE);
             boolean isScreenOn = pm.isInteractive();
 
-            if (isScreenOn == true) {
+            boolean isCharge = isPlugged(MyActivity.c);
+
+            if (isScreenOn == true && isCharge == false) {
                 System.out.println("Google Display!");
                 System.out.println(angularXSpeed);
 
@@ -98,6 +102,17 @@ public class MyService extends Service implements SensorEventListener{
             }
          }
 
+
+    public static boolean isPlugged(Context context) {
+        boolean isPlugged= false;
+        Intent intent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        int plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+        isPlugged = plugged == BatteryManager.BATTERY_PLUGGED_AC || plugged == BatteryManager.BATTERY_PLUGGED_USB;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            isPlugged = isPlugged || plugged == BatteryManager.BATTERY_PLUGGED_WIRELESS;
+        }
+        return isPlugged;
+    }
 
     protected void onResume() {
         // Register a listener for the sensor.

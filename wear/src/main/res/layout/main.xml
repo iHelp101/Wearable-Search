@@ -10,6 +10,7 @@
     app:roundLayout="@layout/round_activity_my"
     tools:context=".MyActivity"
     tools:deviceIds="wear"
-    android:background="@android:color/black">
+    android:background="@android:color/black"
+    android:keepScreenOn="false">
 
 </android.support.wearable.view.WatchViewStub>

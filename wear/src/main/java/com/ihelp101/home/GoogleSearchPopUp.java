@@ -66,7 +66,6 @@ public class GoogleSearchPopUp extends Activity implements
 
             sendMessage(spokenText, null);
 
-
             finish();
         } else {
             finish();
