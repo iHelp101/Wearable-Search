@@ -46,21 +46,6 @@ public class MyService extends Service implements SensorEventListener{
         }
     }
 
-    public void Yolo () {
-        PowerManager pm = (PowerManager)
-                getSystemService(Context.POWER_SERVICE);
-        boolean isScreenOn = pm.isInteractive();
-
-        Log.v("Home", "Screen: " +isScreenOn);
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                Yolo();
-            }
-        }, 20000);
-    }
-
     public void onDestroy(){
         System.out.println("Service Killed");
         super.onDestroy();
